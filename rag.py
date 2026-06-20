@@ -1,17 +1,16 @@
-from uuid import uuid4
 import os
 import sys
-from pathlib import Path
+import streamlit as st
 
-# Fix SQLite issue for Streamlit Cloud / Linux deployments
 try:
     import pysqlite3
     sys.modules["sqlite3"] = sys.modules.pop("pysqlite3")
 except ImportError:
     pass
 
-import streamlit as st
+from uuid import uuid4
 from dotenv import load_dotenv
+from pathlib import Path
 from huggingface_hub import login
 
 from langchain.chains import RetrievalQAWithSourcesChain
@@ -50,8 +49,7 @@ EMBEDDING_MODEL="Alibaba-NLP/gte-base-en-v1.5"
 VECTOR_STORE_DIR=Path(__file__).parent/"resources/vector_store"
 COLLECTION_NAME="real_estate"
 # hf_token = os.getenv("HUGGINGFACEHUB_API_TOKEN")
-hf_token = os.getenv("HUGGINGFACEHUB_API_TOKEN") or st.secrets("HUGGINGFACEHUB_API_TOKEN")
-
+hf_token = os.getenv("HUGGINGFACEHUB_API_TOKEN") or st.secrets.get("HUGGINGFACEHUB_API_TOKEN")
 # Ensure token is set
 if not hf_token:
     raise ValueError("Hugging Face API token not found. " \
