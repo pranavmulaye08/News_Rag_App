@@ -1,16 +1,47 @@
 from uuid import uuid4
+import os
+import sys
+from pathlib import Path
+
+# Fix SQLite issue for Streamlit Cloud / Linux deployments
+try:
+    import pysqlite3
+    sys.modules["sqlite3"] = sys.modules.pop("pysqlite3")
+except ImportError:
+    pass
+
 import streamlit as st
 from dotenv import load_dotenv
-from pathlib import Path
+from huggingface_hub import login
+
 from langchain.chains import RetrievalQAWithSourcesChain
-from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_community.document_loaders import UnstructuredURLLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
+
 from langchain_chroma import Chroma
 from langchain_groq import ChatGroq
 from langchain_huggingface.embeddings import HuggingFaceEmbeddings
-from huggingface_hub import login
-import os
+
+
+# from uuid import uuid4
+# import streamlit as st
+# from dotenv import load_dotenv
+# from pathlib import Path
+# from langchain.chains import RetrievalQAWithSourcesChain
+# from langchain.text_splitter import RecursiveCharacterTextSplitter
+# from langchain_community.document_loaders import UnstructuredURLLoader
+# from langchain_text_splitters import RecursiveCharacterTextSplitter
+# from langchain_chroma import Chroma
+# from langchain_groq import ChatGroq
+# from langchain_huggingface.embeddings import HuggingFaceEmbeddings
+# from huggingface_hub import login
+# import os
+
+# try:
+#     import pysqlite3
+#     sys.modules["sqlite3"]=sys.modules.pop("pysqlite3")
+# except ImportError:
+#     pass
 
 load_dotenv()
 
